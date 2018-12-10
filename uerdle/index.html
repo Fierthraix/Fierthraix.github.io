@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta http-equiv="content-type" content="text/html; charset=utf-8">
+
+      <!-- Enable responsiveness on mobile devices-->
+      <!-- viewport-fit=cover is to support iPhone X rounded corners and notch in landscape-->
+      <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover">
+
+      <title></title>
+
+      <!-- CSS -->
+      <link rel="stylesheet" href="https://blog.aksolot.lol/print.css" media="print">
+      <link rel="stylesheet" href="https://blog.aksolot.lol/poole.css">
+      <link rel="stylesheet" href="https://blog.aksolot.lol/hyde.css">
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=PT+Sans:400,400italic,700|Abril+Fatface">
+
+      
+
+      
+      
+    </head>
+
+    <body class="theme-base-0a ">
+        
+            <div class="sidebar">
+                <div class="container ">
+                    <div class="sidebar-about">
+                        
+                            <a href="https:&#x2F;&#x2F;blog.aksolot.lol">
+                              <img src="https:&#x2F;&#x2F;blog.aksolot.lol/bildoj/Axolotl.jpg" class="blankigo" />
+                              <h1></h1>
+                            </a>
+                            
+                        
+                    </div>
+
+                    <ul class="sidebar-nav">
+                        
+                        <hr />
+                        
+                        <li class="sidebar-nav-item"><a href="https:&#x2F;&#x2F;Fierthraix.github.io&#x2F;vortilo">Vortilo</a></li>
+                        
+                        <li class="sidebar-nav-item"><a href="https:&#x2F;&#x2F;github.com&#x2F;Fierthraix">Github</a></li>
+                        
+                        
+                    </ul>
+                </div>
+            </div>
+        
+
+        <div class="content container">
+            
+<div class="post">
+  <h1 class="post-title">Wordle kaj `ripgrep`</h1>
+  
+    <ul>
+    
+        <li>
+            <a href="https://blog.aksolot.lol/uerdle/#uerdl">Ŭerdl</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://blog.aksolot.lol/uerdle/#eniras-linukso">Eniras Linukso</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://blog.aksolot.lol/uerdle/#trompi-uerdlon-per-linukso">Trompi Ŭerdlon per Linukso</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://blog.aksolot.lol/uerdle/#eniras-bat-kaj-awk">Eniras bat kaj awk</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+        <li>
+            <a href="https://blog.aksolot.lol/uerdle/#unua-diveno">Unua Diveno:</a>
+            
+        </li>
+    
+        <li>
+            <a href="https://blog.aksolot.lol/uerdle/#dua-diveno">Dua diveno:</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://blog.aksolot.lol/uerdle/#eniras-grep">Eniras grep</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+        <li>
+            <a href="https://blog.aksolot.lol/uerdle/#tria-diveno">Tria Diveno:</a>
+            
+        </li>
+    
+        <li>
+            <a href="https://blog.aksolot.lol/uerdle/#uzante-nur-grep">Uzante nur grep:</a>
+            
+        </li>
+    
+        <li>
+            <a href="https://blog.aksolot.lol/uerdle/#kvara-diveno-preskau-gajnonta">Kvara Diveno: Preskaŭ Gajnonta!</a>
+            
+        </li>
+    
+        <li>
+            <a href="https://blog.aksolot.lol/uerdle/#kvina-diveno-la-rezervplano">Kvina Diveno: La RezervPlano</a>
+            
+        </li>
+    
+        <li>
+            <a href="https://blog.aksolot.lol/uerdle/#sesa-diveno">Sesa Diveno:</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://blog.aksolot.lol/uerdle/#kiuj-aliaj-vortoj-mankas-de-mia-vortaro">Kiuj aliaj vortoj mankas de mia vortaro?</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+        <li>
+            <a href="https://blog.aksolot.lol/uerdle/#sepa-diveno">Sepa Diveno:</a>
+            
+                <ul>
+                    
+                        <li>
+                            <a href="https://blog.aksolot.lol/uerdle/#kio-estas-sejno">Kio estas Sejno?</a>
+                        </li>
+                    
+                        <li>
+                            <a href="https://blog.aksolot.lol/uerdle/#la-ververa-sejno">La Ververa Sejno:</a>
+                        </li>
+                    
+                </ul>
+            
+        </li>
+    
+    </ul>
+
+  <span class="post-date">2022-03-15</span>
+  <p><em><a href="https://blog.aksolot.lol/uerdle-en/">Read in English here: 🇨🇦 🇺🇸</a></em></p>
+<style>
+.ŭerdlujo{
+    width: 350px;
+    margin: 0 auto;
+    margin-top: 3px;
+    display: flex;
+    flex-wrap: wrap;
+}
+.karto{
+    border: 2px solid black;
+    width: 60px;
+    height: 60px;
+    margin: 2.5px;
+    color: white;
+    font-size: 36px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.treĝusta{
+    background-color: #6AAA64;
+    border-color: #6AAA64;
+}
+.mezĝusta{
+    background-color: #c9b458;
+    border-color: #c9b458;
+}
+.malĝusta{
+    background-color: #787C7E;
+    border-color: #787C7E;
+}
+</style>
+<h3 id="uerdl">Ŭerdl</h3>
+<p>Mi lastatempe decidis ludi &quot;vortjon&quot;, denove konsumiĝinte min per furoro post la sensacio jam pasis. 👾🎉</p>
+<p style="text-align:center">
+⬜ ⬜ 🟨 ⬜ 🟩<br />
+⬜ 🟩 🟨 ⬜ 🟩<br />
+⬜ 🟩 ⬜ 🟩 🟩<br />
+⬜ 🟩 🟩 🟩 🟩<br />
+⬜ ⬜ ⬜ ⬜ 🟩<br />
+⬜ ⬜ ⬜ 🟨 🟩<br />
+🟩 🟩 🟩 🟩 🟩<br />
+⌨
+</p>
+<p>Kompreneble, mi decidis ludi la Esperantan version. Tiuj-ĉi multas; ekz.<sup class="footnote-reference"><a href="#1">1</a></sup>, <a href="https://www.vortjo.net/"><em>Vortjo</em></a>, <a href="https://esperanto.cat/wordleo/"><em>Wordleo</em></a>, <a href="https://greggink.com/cgi-bin/vortlo/vortlo"><em>Vortlo</em></a>, ktp<sup class="footnote-reference"><a href="#2">2</a></sup>. Mi ne nomos tiun, kiun mi ludis, por ke vi povos mem ilin ĉiujn peni (ankaŭ ĉar mi ne volas malrozigi ĝin laŭ viaj okuloj, kiam mi kunhavos mian frustron kun vi pri la specifa ludo poste).</p>
+<p>Kiel miaj pli ruzaj/pigraj amikoj ludis ĝin, tiel mi dediĉis ludi. Anstataŭ rimedo por plibonigi scion mian de la lingvo, serĉis mi plej facilan manieron por trovi la vorton ĝustan. Rapide.</p>
+<h4 id="eniras-linukso">Eniras Linukso</h4>
+<blockquote>
+<p>Se nur havata ilo estas martelo, ĉiu problemo estas kvazaŭ najlo. <br /><center>📌🔨</center></p>
+</blockquote>
+<p>Ĉiuj, kiujn mi konas alproksimiĝas al la ludo malsame, sed ankoraŭ (siapunkte) familiare same. Dum tiajn problemojn solvas matematikistoj (<a href="https://www.youtube.com/watch?v=v68zYyaEmEA">per matematiko</a>), mi, programisto, Linuksajn ilojn uzas. 🐧</p>
+<script id="asciicast-50301" src="https://asciinema.org/a/50301.js" async></script>
+<h4 id="trompi-uerdlon-per-linukso">Trompi Ŭerdlon per Linukso</h4>
+<p>Entrepreni trompi tiajn vort-ludojn per komputilo komence havendas vortaron tekstdosieran! 📖📚 Malbedaŭrinde, <a href="https://github.com/Fierthraix/vortilo/tree/master/vortoj">ekzakte tion</a> havas mi de <a href="https://blog.aksolot.lol/vortilo/">alia projekto</a>, kiun mi kreas.</p>
+<p>Do, la nur cetera endaĵo estas malfermi Linuksan terminalon<sup class="footnote-reference"><a href="#3">3</a></sup>:</p>
+<p>Mia vortaro konsistas el <code>json</code> dosiero kun vortradiko kaj ties angla-traduko:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cat </span><span>*
+</span></code></pre>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>  ...
+</span><span>    &quot;</span><span style="color:#a3be8c;">vol</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">want</span><span>&quot;,
+</span><span>    &quot;</span><span style="color:#a3be8c;">volv</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">roll</span><span>&quot;,
+</span><span>    &quot;</span><span style="color:#a3be8c;">vom</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">vomit</span><span>&quot;,
+</span><span>    &quot;</span><span style="color:#a3be8c;">zorg</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">care</span><span>&quot;,
+</span><span>    &quot;</span><span style="color:#a3be8c;">zum</span><span>&quot;: &quot;</span><span style="color:#a3be8c;">buzz/hum</span><span>&quot;
+</span><span>}
+</span></code></pre>
+<h4 id="eniras-bat-kaj-awk">Eniras <em>bat</em> kaj <em>awk</em></h4>
+<p>Por forigi la tradukoj, kaj nur kontroli la vortradikojn, <code>awk</code> uzeblas. Tiu komando estas por printi la unuan kolumnon. (Jes, <code>awk</code> unu-indeksas, malkiel la plej multo da programlingvoj)</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cat </span><span>* | </span><span style="color:#bf616a;">awk </span><span>&#39;</span><span style="color:#a3be8c;">{ print $1 }</span><span>&#39;
+</span></code></pre>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>  ...
+</span><span>&quot;</span><span style="color:#a3be8c;">vol</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">volv</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">vom</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">zorg</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">zum</span><span>&quot;:
+</span><span>}
+</span></code></pre>
+<h3 id="unua-diveno">Unua Diveno:</h3>
+<p>Sed nur dezirindas vortojn ĝuste longajn; do 5 literoj, kaj aldonu 3 por la <code>&quot;</code> kaj <code>&quot;:</code> ĉirkaŭaj partoj, kaj minus 1 ĉar vortaro mia mankas lastan literon de ĉiu vort'.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cat </span><span>* | </span><span style="color:#bf616a;">awk </span><span>&#39;</span><span style="color:#a3be8c;">{ print $1 }</span><span>&#39; | </span><span style="color:#bf616a;">awk </span><span>&#39;</span><span style="color:#a3be8c;">length==3+5-1</span><span>&#39;
+</span></code></pre>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>  ...
+</span><span>&quot;</span><span style="color:#a3be8c;">vend</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">venĝ</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">venk</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">verŝ</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">volv</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">zorg</span><span>&quot;:
+</span></code></pre>
+<p>Do, jen temp' por hazarde diveni:</p>
+<div class="ŭerdlujo">
+<div class="karto malĝusta">B</div>
+<div class="karto malĝusta">I</div>
+<div class="karto mezĝusta">E</div>
+<div class="karto malĝusta">R</div>
+<div class="karto treĝusta">O</div>
+</div>
+<br />
+<p>Malaĉe! Tamen, estas lima nombro da eblooj por fina litero, kaj <em>O</em> eble plej oftas. Do nun, ni ne volas vidi vortojn kun certaj literoj, sed samtempe certaj literoj videndas.</p>
+<h3 id="dua-diveno">Dua diveno:</h3>
+<h4 id="eniras-grep">Eniras <em>grep</em></h4>
+<p><em>(rip)</em><code>grep</code> kapabligas onin serĉi tekston per pli pova maniero ol <code>Ctrl+F</code>. Por serĉi stringon, nur endas aldoni ĝin post la komando. Por malinkluzivi literojn, uzu <code>rg -v</code> / <code>grep -v</code>.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cat </span><span>* | </span><span style="color:#bf616a;">awk </span><span>&#39;</span><span style="color:#a3be8c;">{ print $1 }</span><span>&#39; | </span><span style="color:#bf616a;">awk </span><span>&#39;</span><span style="color:#a3be8c;">length==3+5-1</span><span>&#39; | </span><span style="color:#bf616a;">rg -v </span><span>&#39;</span><span style="color:#a3be8c;">[bir]</span><span>&#39; | </span><span style="color:#bf616a;">rg </span><span>&#39;</span><span style="color:#a3be8c;">e</span><span>&#39;
+</span></code></pre>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>  ...
+</span><span>&quot;</span><span style="color:#a3be8c;">temp</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">tend</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">vejn</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">vesp</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">veŝt</span><span>&quot;:
+</span></code></pre>
+<p>La <code>[</code> kaj <code>]</code> signifas ke tiuj literoj inter ili apartenas de <em>aro</em>, ne de <em>stringo</em>. Do <code>rg -v [bir]</code> ignoras <em>ĉiun linion</em>, kiu havas la literojn <code>b</code>, <code>i</code>, aŭ <code>r</code> laŭ ajna ordo.</p>
+<p>Alimane, <code>rg -v 'bir'</code> serĉas tiun ekzaktan stringon, kaj nur forigas vortojn kiel <em><strong>bir</strong>do</em>, <em>bar<strong>bir</strong>o</em>, kaj <em><strong>Bir</strong>mo</em>. Do la <code>[bir]</code> parto ekzakte samas se skribota kiel <code>[rib]</code> aŭ <code>[irb]</code>.</p>
+<div class="ŭerdlujo">
+<div class="karto malĝusta">B</div>
+<div class="karto malĝusta">I</div>
+<div class="karto mezĝusta">E</div>
+<div class="karto malĝusta">R</div>
+<div class="karto treĝusta">O</div>
+<div class="karto malĝusta">M</div>
+<div class="karto treĝusta">E</div>
+<div class="karto mezĝusta">N</div>
+<div class="karto malĝusta">U</div>
+<div class="karto treĝusta">O</div>
+</div>
+<br />
+<p>Ĝuste poziciis literon kaj flavigis alian!</p>
+<p>Nun, serĉindas vortoj kun kaj la litero <em>E</em>, kaj la litero <em>N</em>, sed tio ne tiel simplas kiel malinkluzivi pliajn literojn.</p>
+<h3 id="tria-diveno">Tria Diveno:</h3>
+<p>La <code>[]</code> notacio ne plu taŭgas. Estas volataj vortoj kun <em>kajaj</em>, ne <em>aŭaj</em> literoj <em>E</em> &amp; <em>N</em>, do ni devas aldoni alian <code>grep</code>-komandon por certigi ke la divenoj havos <code>n</code>-n.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">cat </span><span>* | </span><span style="color:#bf616a;">awk </span><span>&#39;</span><span style="color:#a3be8c;">{ print $1 }</span><span>&#39; | </span><span style="color:#bf616a;">awk </span><span>&#39;</span><span style="color:#a3be8c;">length==3+5-1</span><span>&#39; | </span><span style="color:#bf616a;">rg -v </span><span>&#39;</span><span style="color:#a3be8c;">[birmu]</span><span>&#39; | </span><span style="color:#bf616a;">rg </span><span>&#39;</span><span style="color:#a3be8c;">e</span><span>&#39; | </span><span style="color:#bf616a;">rg </span><span>&#39;</span><span style="color:#a3be8c;">n</span><span>&#39;
+</span></code></pre>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>  ...
+</span><span>&quot;</span><span style="color:#a3be8c;">sven</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">tent</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">vend</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">venĝ</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">venk</span><span>&quot;:
+</span></code></pre>
+<p>Se oni volas hazardi elekti de la printita listo, nur aldonu <code>| shuf | head -n 1</code> por hazarde ordigi la vortoj, kaj elekti la unua.</p>
+<div class="ŭerdlujo">
+<div class="karto malĝusta">B</div>
+<div class="karto malĝusta">I</div>
+<div class="karto mezĝusta">E</div>
+<div class="karto malĝusta">R</div>
+<div class="karto treĝusta">O</div>
+<div class="karto malĝusta">M</div>
+<div class="karto treĝusta">E</div>
+<div class="karto mezĝusta">N</div>
+<div class="karto malĝusta">U</div>
+<div class="karto treĝusta">O</div>
+<div class="karto malĝusta">L</div>
+<div class="karto treĝusta">E</div>
+<div class="karto malĝusta">O</div>
+<div class="karto treĝusta">N</div>
+<div class="karto treĝusta">O</div>
+</div>
+<br />
+<p>La tabulo pli kaj pli verdiĝas. 😊</p>
+<h3 id="uzante-nur-grep">Uzante nur <em>grep</em>:</h3>
+<p>Anstataŭ <code>cat | awk</code>, eblas serĉi nure per <code>grep</code>. Defaŭlte <code>ripgrep</code><sup class="footnote-reference"><a href="#5">4</a></sup>  serĉus ĉiujn tekstdosierojn en la nuna dosierujo (sen dosiera argumento), do la <code>cat *</code> parto estas pritraktita.</p>
+<p>Sed kiel serĉi nur la radikoj, kaj ne ties difinojn? En la <code>json</code> supre, videblas ke ĉirkaŭ la vortradikoj estas malsaman paternon ol ĉirkaŭ la definoj, ĉar ili estas ŝlosiloj (do estas <code>:</code> post la fina <code>&quot;</code>). Do, paterno serĉinda estas stringoj da 4 literoj inter <code>&quot;</code> kaj kun <code>&quot;:</code>.</p>
+<p>En <em>regex</em>-lingvo<sup class="footnote-reference"><a href="#15">5</a></sup> <code>.</code> kongruas iun ajn literojn, kaj la <code>{4}</code>-parto, signifas ke la antaŭa paterno aperu kvarfoje. Do, normallingve, <code>&quot;.{4}&quot;:</code> indikas serĉi la paternon: <code>&quot;▫▫▫▫&quot;:</code>, (kun kiujn ajn literojn meze).</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">rg -Io </span><span>&#39;</span><span style="color:#a3be8c;">&quot;.{4}&quot;:</span><span>&#39; | </span><span style="color:#bf616a;">rg -v </span><span>&#39;</span><span style="color:#a3be8c;">[birmulo]</span><span>&#39; | </span><span style="color:#bf616a;">rg </span><span>&#39;</span><span style="color:#a3be8c;">e</span><span>&#39; | </span><span style="color:#bf616a;">rg </span><span>&#39;</span><span style="color:#a3be8c;">n</span><span>&#39;
+</span></code></pre>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>  ...
+</span><span>&quot;</span><span style="color:#a3be8c;">scen</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">senc</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">sens</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">tend</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">vejn</span><span>&quot;:
+</span></code></pre>
+<p>Nun ne-<code>grep</code>aj komandoj foras, kaj la komando malpli longas, sed ankoraŭ estas tro da <code>grep</code>oj.</p>
+<h3 id="kvara-diveno-preskau-gajnonta">Kvara Diveno: Preskaŭ Gajnonta!</h3>
+<p>Kun pli da informo pri la loko de iuj literoj, jam temp' estu pli inteligenta pri ĝia uzado (kaj ankaŭ mallongigi la komandon).</p>
+<p><code>{4}</code> signifas kvarfoja ripetado, do <code>&quot;.{4}&quot;:</code> samas kiel <code>&quot;....&quot;:</code>. Sciante tion, anstataŭ kongrui iun ajn literon, oni povas ŝanĝi <code>.</code> al specifa litero por kongrui tiun literon.</p>
+<p>La <code>grep</code> komando klare spegulas la ludon, nun ke ni pozicias literojn tiel:</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">rg -Io </span><span>&#39;</span><span style="color:#a3be8c;">&quot;.e.n&quot;:</span><span>&#39; | </span><span style="color:#bf616a;">rg -v </span><span>&#39;</span><span style="color:#a3be8c;">[birmulo]</span><span>&#39;
+</span></code></pre>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>&quot;</span><span style="color:#a3be8c;">vejn</span><span>&quot;:
+</span></code></pre>
+<p>Do, bonege! Nur unu rezulton eligas tiu-ĉi komando pro tiu plia ordinformo. Mi nepre ĵus malkovris la ĝustan vorton! 🎉</p>
+<div class="ŭerdlujo">
+<div class="karto malĝusta">B</div>
+<div class="karto malĝusta">I</div>
+<div class="karto mezĝusta">E</div>
+<div class="karto malĝusta">R</div>
+<div class="karto treĝusta">O</div>
+<div class="karto malĝusta">M</div>
+<div class="karto treĝusta">E</div>
+<div class="karto mezĝusta">N</div>
+<div class="karto malĝusta">U</div>
+<div class="karto treĝusta">O</div>
+<div class="karto malĝusta">L</div>
+<div class="karto treĝusta">E</div>
+<div class="karto malĝusta">O</div>
+<div class="karto treĝusta">N</div>
+<div class="karto treĝusta">O</div>
+<div class="karto malĝusta">V</div>
+<div class="karto treĝusta">E</div>
+<div class="karto treĝusta">J</div>
+<div class="karto treĝusta">N</div>
+<div class="karto treĝusta">O</div>
+</div>
+<br />
+<h3 id="kvina-diveno-la-rezervplano">Kvina Diveno: La RezervPlano</h3>
+<p>Nu hmm... Vortaro mia mankas ĉi-tiun vorton. 😞</p>
+<p>Tamen esperiĝu kara; restas la ruz' de uzu divenon kun neniuj konataj literoj. Do, ni <em>nur</em> volas vidi vortoj komponitaj de ne jam kontrolitaj literoj por kontroli tiom da ili laŭeble.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">rg -Io </span><span>&#39;</span><span style="color:#a3be8c;">&quot;[^birmulone]{4}&quot;:</span><span>&#39;
+</span></code></pre>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>  ...
+</span><span>&quot;</span><span style="color:#a3be8c;">stat</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">ŝtat</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">takt</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">task</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">vaks</span><span>&quot;:
+</span></code></pre>
+<p>Regeksaj novaĵoj: La <code>^</code> signifas ke ne volas <em>neniujn</em> literojn de la aro. Ĉi-tio malsamas al <code>rg -v</code> ĉar la <code>&quot;</code> + <code>&quot;:</code> partoj volatas, nur tiuj specifaj literoj enaraj maldeziratas.</p>
+<div class="ŭerdlujo">
+<div class="karto malĝusta">B</div>
+<div class="karto malĝusta">I</div>
+<div class="karto mezĝusta">E</div>
+<div class="karto malĝusta">R</div>
+<div class="karto treĝusta">O</div>
+<div class="karto malĝusta">M</div>
+<div class="karto treĝusta">E</div>
+<div class="karto mezĝusta">N</div>
+<div class="karto malĝusta">U</div>
+<div class="karto treĝusta">O</div>
+<div class="karto malĝusta">L</div>
+<div class="karto treĝusta">E</div>
+<div class="karto malĝusta">O</div>
+<div class="karto treĝusta">N</div>
+<div class="karto treĝusta">O</div>
+<div class="karto malĝusta">V</div>
+<div class="karto treĝusta">E</div>
+<div class="karto treĝusta">J</div>
+<div class="karto treĝusta">N</div>
+<div class="karto treĝusta">O</div>
+<div class="karto malĝusta">Ŝ</div>
+<div class="karto malĝusta">T</div>
+<div class="karto malĝusta">A</div>
+<div class="karto malĝusta">T</div>
+<div class="karto treĝusta">O</div>
+</div>
+<br />
+<p>Do forigis iujn literojn, inkluzive de la lasta vaŭlo, sed ne trovis la mankantan literon!</p>
+<h3 id="sesa-diveno">Sesa Diveno:</h3>
+<h4 id="kiuj-aliaj-vortoj-mankas-de-mia-vortaro">Kiuj aliaj vortoj mankas de mia vortaro?</h4>
+<p>Mi daŭros samplane kiel antaŭe, ne tro da vortoj eĉ restu sen ĉi-tiuj literoj.</p>
+<pre data-lang="bash" style="background-color:#2b303b;color:#c0c5ce;" class="language-bash "><code class="language-bash" data-lang="bash"><span style="color:#bf616a;">rg -Io </span><span>&#39;</span><span style="color:#a3be8c;">&quot;[^birmuloneŝt]{4}&quot;:</span><span>&#39;
+</span></code></pre>
+<pre data-lang="json" style="background-color:#2b303b;color:#c0c5ce;" class="language-json "><code class="language-json" data-lang="json"><span>  ...
+</span><span>&quot;</span><span style="color:#a3be8c;">saŭc</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">spac</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">vaks</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">fajf</span><span>&quot;:
+</span><span>&quot;</span><span style="color:#a3be8c;">paŭz</span><span>&quot;:
+</span></code></pre>
+<div class="ŭerdlujo">
+<div class="karto malĝusta">B</div>
+<div class="karto malĝusta">I</div>
+<div class="karto mezĝusta">E</div>
+<div class="karto malĝusta">R</div>
+<div class="karto treĝusta">O</div>
+<div class="karto malĝusta">M</div>
+<div class="karto treĝusta">E</div>
+<div class="karto mezĝusta">N</div>
+<div class="karto malĝusta">U</div>
+<div class="karto treĝusta">O</div>
+<div class="karto malĝusta">L</div>
+<div class="karto treĝusta">E</div>
+<div class="karto malĝusta">O</div>
+<div class="karto treĝusta">N</div>
+<div class="karto treĝusta">O</div>
+<div class="karto malĝusta">V</div>
+<div class="karto treĝusta">E</div>
+<div class="karto treĝusta">J</div>
+<div class="karto treĝusta">N</div>
+<div class="karto treĝusta">O</div>
+<div class="karto malĝusta">Ŝ</div>
+<div class="karto malĝusta">T</div>
+<div class="karto malĝusta">A</div>
+<div class="karto malĝusta">T</div>
+<div class="karto treĝusta">O</div>
+<div class="karto malĝusta">V</div>
+<div class="karto malĝusta">A</div>
+<div class="karto malĝusta">K</div>
+<div class="karto mezĝusta">S</div>
+<div class="karto treĝusta">O</div>
+</div>
+<br />
+<p><big>🤔🤔</big> Do la mankinta litero estas <em>S</em>?</p>
+<p>Per la algoritmo supra, tiu-ĉi vorto devus jam troviti...</p>
+<h3 id="sepa-diveno">Sepa Diveno:</h3>
+<div class="ŭerdlujo">
+<div class="karto treĝusta">S</div>
+<div class="karto treĝusta">E</div>
+<div class="karto treĝusta">J</div>
+<div class="karto treĝusta">N</div>
+<div class="karto treĝusta">O</div>
+</div>
+<br />
+<p><strong>Finfinfine!</strong> Do plano B sukcesis, sed DuoLingo neniam intruis tiun-ĉi vorton al mi! 🦉</p>
+<h4 id="kio-estas-sejno">Kio estas <em>Sejno</em>?</h4>
+<p>Laŭ <a href="https://eo.wikipedia.org/wiki/Sejno">Vikipedio</a><sup class="footnote-reference"><a href="#4">6</a></sup>:</p>
+<blockquote>
+<p><em>Sejno</em> estas ia rivero, ie en Francujo, kiun figuras <a href="https://eo.wikipedia.org/wiki/Georges_Seurat">ĉi-tiu</a> fama pentraĵo:
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/6/67/A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884.png/800px-A_Sunday_on_La_Grande_Jatte%2C_Georges_Seurat%2C_1884.png" width="100%"></p>
+</blockquote>
+<p>Jen ludo kiu ludis min. Oni laŭdas ĝin por ĝi lingvistika praktiko, sed kaŝkaŝe estas ĝi tuttempe geografio-ludo! 🌎🌍🌏</p>
+<h4 id="la-ververa-sejno">La Ververa Sejno:</h4>
+<p>Post plia enketado, mi trovis alian definon; Vikipedio <a href="https://eo.wikipedia.org/wiki/Sejno_(fi%C5%9Dkaptado)">denove savis</a> nin!</p>
+<blockquote>
+<p>&quot;<em>Sejno</em> estas tipo de reto por kapti fiŝojn en rivero.&quot;
+<img src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Seine_%28PSF%29.png" width="100%"></p>
+</blockquote>
+<p>Nu, 😅 ĝi verŝajne <em>estas</em> vera vorto. </p>
+<p>Dankon por legi kara, kaj esperas mi ke lernis vi iom aŭ pri komand-liniaj programoj, aŭ pri Esperanto.</p>
+<hr />
+<hr />
+<div class="footnote-definition" id="1"><sup class="footnote-definition-label">1</sup>
+<p><em>ekzistas</em>; ne <em>ekzemple</em> ĉi-kaze. :^)</p>
+</div>
+<div class="footnote-definition" id="2"><sup class="footnote-definition-label">2</sup>
+<p><em>kaj tiaj programoj</em>; ne <em>kaj tiel plu</em> ĉi-kaze c:</p>
+</div>
+<div class="footnote-definition" id="3"><sup class="footnote-definition-label">3</sup>
+<p>Mi uzas <a href="https://github.com/BurntSushi/ripgrep"><em>ripgrep</em></a> (<code>rg</code>) anstataŭ la klasikaj <a href="https://www.man7.org/linux/man-pages/man1/grep.1.html"><code>grep</code></a> kaj <a href="https://www.man7.org/linux/man-pages/man1/cat.1.html"><code>bat</code></a> ĉar.. nu, ili verkitas per <a href="https://www.rust-lang.org/">rust</a>, kaj estas pli modernaj. Ankoraŭ atendante anstataŭigon por <code>awk</code>...</p>
+</div>
+<div class="footnote-definition" id="15"><sup class="footnote-definition-label">5</sup>
+<p>Bona rimedo/retejo por lerni, kontroli, kaj praktiki _regeks_ojn estas <a href="https://regexr.com/">regexr.com</a>.</p>
+</div>
+<div class="footnote-definition" id="5"><sup class="footnote-definition-label">4</sup>
+<p>Absolute, unu el la avantaĝo de ĝi super normala <code>grep</code>. Komando <code>rg foo</code> samas kiel <code>grep foo -R .</code>, sed per 7 alklakoj mallongas.</p>
+</div>
+<div class="footnote-definition" id="4"><sup class="footnote-definition-label">6</sup>
+<p>Kial ne <em>Ŭikipedio</em>?</p>
+</div>
+
+</div>
+
+        </div>
+
+    </body>
+
+</html>

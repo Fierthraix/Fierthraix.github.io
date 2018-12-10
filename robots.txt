@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://blog.aksolot.lol/sitemap.xml
