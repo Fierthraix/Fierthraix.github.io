@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
-        <loc>http://blog.tomatorepo.ca/</loc>
+        <loc>http://Fierthraix.github.io/</loc>
     </url>
     <url>
-        <loc>http://blog.tomatorepo.ca/hello-world/</loc>
+        <loc>http://Fierthraix.github.io/hello-world/</loc>
         <lastmod>2018-12-10</lastmod>
     </url>
     <url>
-        <loc>http://blog.tomatorepo.ca/latex/</loc>
+        <loc>http://Fierthraix.github.io/latex/</loc>
         <lastmod>2019-12-10</lastmod>
     </url>
 </urlset>
