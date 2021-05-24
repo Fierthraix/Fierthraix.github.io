@@ -1,3 +1,3 @@
 User-agent: *
 Allow: /
-Sitemap: http://Fierthraix.github.io/sitemap.xml
+Sitemap: https://Fierthraix.github.io/sitemap.xml
